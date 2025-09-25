@@ -6,9 +6,9 @@ load_dotenv()
 
 
 api_key = os.getenv("AZURE_OPENAI_API_KEY")
-endpoint = os.getenv("ENDPOINT_URL")
+endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
 deployment = os.getenv("DEPLOYMENT_NAME")
-api_version = os.getenv("API_VERSION")
+api_version = os.getenv("OPENAI_API_VERSION")
 
 
 print("Azure OpenAI API Key:", api_key)
