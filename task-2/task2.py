@@ -1,8 +1,7 @@
 import os
 from dotenv import load_dotenv
 from langchain_openai import AzureChatOpenAI
-from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
+from utils.summarizer import summarizer_chain
 
 
 load_dotenv()
@@ -10,24 +9,13 @@ load_dotenv()
 
 deployment = os.getenv("DEPLOYMENT_NAME")
 
-
-
 llm = AzureChatOpenAI(
     azure_deployment=deployment,
     
     temperature=0  
 )
 
-three_sentence_prompt = PromptTemplate(
-    input_variables=["text"],
-    template="Summarize the following text in exactly 3 sentences:\n\n{text}"
-)
 
-
-three_sentence_chain = LLMChain(
-    llm=llm,
-    prompt=three_sentence_prompt
-)
 
 text_about_ai = """
 Artificial intelligence (AI) refers to the simulation of human intelligence in machines that are designed to think, learn, and adapt like humans. 
@@ -43,21 +31,4 @@ Researchers and policymakers are actively working to ensure that AI development 
 The future of AI holds immense potential, but it requires careful regulation and responsible innovation to maximize benefits while minimizing risks.
 """
 
-
-print("=== 3 Sentence Summary ===")
-print(three_sentence_chain.run(text_about_ai))
-
-
-
-one_sentence_prompt = PromptTemplate(
-    input_variables=["text"],
-    template="Summarize the following text in exactly 1 sentence:\n\n{text}"
-)
-
-one_sentence_chain = LLMChain(
-    llm=llm,
-    prompt=one_sentence_prompt
-)
-
-print("\n=== 1 Sentence Summary ===")
-print(one_sentence_chain.run(text_about_ai))
+summarizer_chain(text_about_ai,llm)
